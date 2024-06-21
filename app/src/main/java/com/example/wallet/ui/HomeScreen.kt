@@ -37,30 +37,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.wallet.R
-
-val InterBold = FontFamily(
-    Font(R.font.inter_bold)
-)
-
-data class Card(
-    val id: Int,
-    val cardType: String,
-    val cardNumber: String,
-    val validThru: String,
-    val ownerName: String,
-    val pin: String,
-    val backgroundColor: Color,
-    val amount: String,
-)
+import com.example.wallet.ui.theme.InterBold
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onAddCardClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,17 +55,19 @@ fun HomeScreen() {
 
         GreetingSection()
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         PaymentSection()
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(42.dp))
 
         RecentTransactions(onClick = { })
 
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(42.dp))
 
-        CardsSection()
+        CardsSection {
+            onAddCardClick()
+        }
     }
 }
 
@@ -213,17 +201,19 @@ fun RecentTransactions(
 }
 
 @Composable
-fun CardsSection() {
+fun CardsSection(
+    onAddCardClick: () -> Unit
+) {
 
     val cards = listOf(
         Card(
             id = 6264,
             cardType = "Debit",
             cardNumber = "1234567890123456",
-            validThru = "0423",
+            validThru = "1023",
             ownerName = "Ahmed Mahgoub",
             pin = "462",
-            backgroundColor = Color.Black,
+            backgroundColor = Color.Black.copy(0.85f),
             amount = "2500.0"
         ),
         Card(
@@ -233,7 +223,7 @@ fun CardsSection() {
             validThru = "0619",
             ownerName = "Ahmed Mahgoub",
             pin = "501",
-            backgroundColor = Color.Red,
+            backgroundColor = Color.Magenta.copy(alpha = 0.85f),
             amount = "3650.0"
         )
     )
@@ -262,7 +252,7 @@ fun CardsSection() {
                         .clip(RoundedCornerShape(12.dp))
                         .background(Color.Gray.copy(alpha = 0.1f))
                         .clickable {
-
+                            onAddCardClick()
                         },
                     contentAlignment = Alignment.Center
                 ) {
